@@ -6,7 +6,7 @@
 #include "../../headers/JSONParser.h"
 #include "../../headers/JSONFactory.h"
 
-JSONPair::JSONPair(const std::string &key, JSONBase *value) : key(key), value(value->clone())
+JSONPair::JSONPair(const std::string &key, JSONBase *value) : key(key), value(value)
 {}
 
 JSONPair::~JSONPair()
@@ -32,18 +32,17 @@ JSONPair& JSONPair::operator=(const JSONPair &other)
     return *this;
 }
 
-//JSONBase* JSONPair::clone() const
-//{
-//    return new JSONPair(*this);
-//}
-
-JSONPairCreator::JSONPairCreator()  // pair starts with " like a string and can only exist inside an object, so it shouldn't be in the factory
-{}
-
-JSONPair JSONPairCreator::createJSONPair(std::istream &in) const
+JSONPair* JSONPair::clone() const
 {
+    return new JSONPair(*this);
+}
+
+JSONPair* JSONPairCreator::createJSONPair(std::istream &in)
+{
+    char c;
     std::string key = JSONParser::parseString(in);
+    in >> c; // get the :
     JSONBase* jsonBase = JSONFactory::getFactory().createJSONBase(in);
 
-    return JSONPair(key, jsonBase);
+    return new JSONPair(key, jsonBase);
 }

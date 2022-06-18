@@ -3,19 +3,7 @@
 //
 
 #include "../headers/JSONValidator.h"
-
-void JSONValidator::clearWhiteSpaces(std::istream &in)
-{
-    char c;
-
-    do
-    {
-        in.get(c);
-    }
-    while(isspace(c));
-
-    in.seekg(-1, std::ios_base::cur);
-}
+#include "../headers/Utilities.h"
 
 void JSONValidator::validateEscapeChar(std::istream &in)
 {
@@ -38,30 +26,6 @@ void JSONValidator::validateEscapeChar(std::istream &in)
             }
         }
     }
-}
-
-bool JSONValidator::isObjectEmpty(std::istream &in)
-{
-    char c;
-    in >> c;
-
-    if (c == END_OBJECT) return true;
-
-    in.seekg(-1, std::ios_base::cur);
-
-    return false;
-}
-
-bool JSONValidator::isArrayEmpty(std::istream &in)
-{
-    char c;
-    in >> c;
-
-    if (c == END_ARRAY) return true;
-
-    in.seekg(-1, std::ios_base::cur);
-
-    return false;
 }
 
 void JSONValidator::validateType(std::istream& in)
@@ -126,7 +90,7 @@ void JSONValidator::validateString(std::istream &in)
     char c;
     unsigned int quotesCount = 0;
 
-    clearWhiteSpaces(in);
+    Utilities::clearWhiteSpaces(in);
 
     while (in.get(c))
     {
@@ -153,7 +117,7 @@ void JSONValidator::validateObject(std::istream &in)
         throw InvalidTypeException("Object must start with a {.");
     }
 
-    if (isObjectEmpty(in)) return;
+    if (Utilities::isObjectEmpty(in)) return;
 
     while (in.good())
     {
@@ -203,7 +167,7 @@ void JSONValidator::validateArray(std::istream &in)
         throw InvalidTypeException("Array must start with a [.", in.tellg());
     }
 
-    if (isArrayEmpty(in)) return;
+    if (Utilities::isArrayEmpty(in)) return;
 
     while (in.good())
     {

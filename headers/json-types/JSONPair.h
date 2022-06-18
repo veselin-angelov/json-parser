@@ -20,15 +20,14 @@ public:
     JSONPair(const JSONPair& other);
     JSONPair& operator=(const JSONPair& other);
 
-//    JSONBase* clone() const override;
+    JSONPair* clone() const;
 };
 
 
 class JSONPairCreator
 {
 public:
-    JSONPairCreator();
-    JSONPair createJSONPair(std::istream &in) const;
+    static JSONPair* createJSONPair(std::istream &in);
 };
 
 

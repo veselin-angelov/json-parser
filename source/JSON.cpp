@@ -3,29 +3,32 @@
 //
 
 #include "../headers/JSON.h"
+#include "../headers/JSONValidator.h"
+#include "../headers/JSONFactory.h"
 
-JSON::JSON(std::string &fileName) : fileName(fileName)
+JSON::JSON(const std::string &fileName) : fileName(fileName)
 {
 //    1. OPEN file
+    std::ifstream file(this->fileName);
+    if (!file.is_open()) throw std::runtime_error("File failed");
 //    2. Validate json
+    JSONValidator::validate(file);
 //    3. Move cursor to the beginning of file
+    file.clear();
+    file.seekg(0);
 //    4. Parse json
+    parseJSON(file);
 //    5. Close file
-//    TODO IMPORTANT MOVE ONE CHAR BACK IN FACTORY
+    file.close();
 //    TODO CHECK FOR FILE STATE
+}
+
+JSON::~JSON()
+{
+    delete json;
 }
 
 void JSON::parseJSON(std::istream &in)
 {
-    char c;
-    in >> c;
-
-//    in.seekg(-1, std::ios_base::cur); // Move the cursor back because we need the data for further validating
-
-//    if (c == '-' || (c >= '0' && c <= '9')) validateNumber(in);
-//    else if (c == 't' || c == 'f') validateBool(in);
-//    else if (c == 'n') validateNull(in);
-//    else if (c == '"') validateString(in);
-//    else if (c == '{') validateObject(in);
-//    else if (c == '[') validateArray(in);
+    this->json = JSONFactory::getFactory().createJSONBase(in);
 }

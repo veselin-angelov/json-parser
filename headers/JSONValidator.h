@@ -27,10 +27,7 @@ private:
     const static char STRING_QUOTE = '"';
 
 private:
-    static void clearWhiteSpaces(std::istream &in);
     static void validateEscapeChar(std::istream &in);
-    static bool isObjectEmpty(std::istream &in);
-    static bool isArrayEmpty(std::istream &in);
 
     static void validateType(std::istream &in);
 
@@ -42,8 +39,7 @@ private:
     static void validateArray(std::istream &in);
 
 public:
-    static void validate(std::istream &in) ;
-
+    static void validate(std::istream &in);
 };
 
 

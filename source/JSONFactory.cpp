@@ -6,7 +6,6 @@
 
 const JSONBaseCreator* JSONFactory::getCreator(const char c) const
 {
-//    TODO CHANGE THE METHOD OF DETERMINING WHAT TO CALL
     for (int i = 0; i < count; ++i)
     {
         if (strchr(creators[i]->getKeyChars(), c) != nullptr)
@@ -38,6 +37,7 @@ JSONBase* JSONFactory::createJSONBase(std::istream &in)
 
     if (creator)
     {
+        in.seekg(-1, std::ios_base::cur);
         return creator->createJSONBase(in);
     }
 

@@ -9,15 +9,25 @@
 #include "JSONBase.h"
 #include "JSONPair.h"
 
-class JSONObject : public JSONBase  // TODO HOW TO GET KEY AND KNOW ITS AN OBJECT NOT STRING
+class JSONObject : public JSONBase
 {
 private:
-    std::vector<JSONPair> values;
+    std::vector<JSONPair*> values;
+
+private:
+    void destroy();
 
 public:
-//    JSONObject() = default;
-    explicit JSONObject(const std::vector<JSONPair> &values);
+    JSONObject() = default;
+    explicit JSONObject(const std::vector<JSONPair*> &values);
+    ~JSONObject() override;
+    JSONObject(const JSONObject &other);
+    JSONObject& operator=(const JSONObject &other);
+
     JSONBase* clone() const override;
+
+public:
+    std::vector<JSONPair*> &getValues();
 };
 
 

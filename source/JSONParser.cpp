@@ -3,12 +3,15 @@
 //
 
 #include "../headers/JSONParser.h"
+#include "../headers/Utilities.h"
 
 std::string JSONParser::parseString(std::istream &in)
 {
     std::string input;
     char c;
     unsigned int quotesCount = 0;
+
+    Utilities::clearWhiteSpaces(in);
 
     while (in.get(c))
     {

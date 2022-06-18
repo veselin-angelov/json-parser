@@ -7,6 +7,8 @@
 
 
 #include <istream>
+#include <fstream>
+#include <exception>
 #include "json-types/JSONBase.h"
 
 class JSON
@@ -19,8 +21,8 @@ private:
     void parseJSON(std::istream &in);
 
 public:
-    explicit JSON(std::string &fileName);
-
+    explicit JSON(const std::string &fileName);
+    virtual ~JSON();
 };
 
 
