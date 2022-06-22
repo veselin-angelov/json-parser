@@ -33,7 +33,7 @@ void JSONValidator::validateType(std::istream& in)
     char c;
     in >> c;
 
-    in.seekg(-1, std::ios_base::cur); // Move the cursor back because we need the data for further validating
+    in.unget(); // Unget the last char because we need the data for further validating
 
     if (c == '-' || (c >= '0' && c <= '9')) validateNumber(in);
     else if (c == 't' || c == 'f') validateBool(in);
@@ -143,7 +143,7 @@ void JSONValidator::validateObject(std::istream &in)
                 throw InvalidTypeException("A valid key is expected after a comma.", in.tellg());
             }
 
-            in.seekg(-1, std::ios_base::cur);
+            in.unget();
         }
         else
         {

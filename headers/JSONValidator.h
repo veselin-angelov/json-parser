@@ -9,9 +9,10 @@
 #include <string>
 #include <stdexcept>
 #include "JSONExceptions.h"
-//#include "TypeUtilities.h"
 #include <istream>
 #include <iostream> // TODO remove
+
+// TODO validate unique and remove const static chars
 
 class JSONValidator
 {

@@ -4,6 +4,7 @@
 
 #include "../headers/JSONParser.h"
 #include "../headers/Utilities.h"
+#include "../headers/JSONFactory.h"
 
 std::string JSONParser::parseString(std::istream &in)
 {
@@ -48,4 +49,61 @@ long double JSONParser::parseNumber(std::istream &in)
     long double number;
     in >> number;
     return number;
+}
+
+void JSONParser::parseObject(std::istream &in, JSONObject *jsonObject)
+{
+    char c;
+    in >> c; // get the {
+
+    if (!Utilities::isObjectEmpty(in))
+    {
+        while (in.good())
+        {
+            JSONPair* jsonPair = JSONPairCreator::createJSONPair(in);
+            jsonObject->getValues().push_back(jsonPair);
+
+            in >> c;
+
+            if (c != ',') break;
+        }
+    }
+}
+
+void JSONParser::parseArray(std::istream &in, JSONArray *jsonArray)
+{
+    char c;
+    in >> c; // get the [
+
+    if (!Utilities::isArrayEmpty(in))
+    {
+        while (in.good())
+        {
+            JSONBase *jsonBase = JSONFactory::getFactory().createJSONBase(in);
+            jsonArray->getValues().push_back(jsonBase);
+
+            in >> c;
+
+            if (c != ',') break;
+        }
+    }
+}
+
+std::vector<std::string> JSONParser::parseElementPathToElements(const std::string &path)
+{
+    std::vector<std::string> elements;
+
+    size_t last = 0;
+    size_t next = 0;
+
+    while ((next = path.find_first_of(".[]", last)) != std::string::npos)
+    {
+        if (next - last > 0) elements.push_back(path.substr(last, next - last));
+        last = next + 1;
+    }
+
+    // this is needed because in the while loop the last option after the last delimiter isn't set
+    if (path.length() - last > 0) elements.push_back(path.substr(last));
+
+    return elements;
 }

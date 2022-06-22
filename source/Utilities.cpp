@@ -14,7 +14,7 @@ void Utilities::clearWhiteSpaces(std::istream &in)
     }
     while(isspace(c));
 
-    in.seekg(-1, std::ios_base::cur);
+    in.unget();
 }
 
 bool Utilities::isObjectEmpty(std::istream &in)
@@ -24,7 +24,7 @@ bool Utilities::isObjectEmpty(std::istream &in)
 
     if (c == '}') return true;
 
-    in.seekg(-1, std::ios_base::cur);
+    in.unget();
 
     return false;
 }
@@ -36,7 +36,7 @@ bool Utilities::isArrayEmpty(std::istream &in)
 
     if (c == ']') return true;
 
-    in.seekg(-1, std::ios_base::cur);
+    in.unget();
 
     return false;
 }

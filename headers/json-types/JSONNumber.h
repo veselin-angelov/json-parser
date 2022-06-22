@@ -15,7 +15,9 @@ private:
 
 public:
     explicit JSONNumber(long double value);
+
     JSONBase* clone() const override;
+    void output(std::ostream &out, size_t level, bool isCompact) const override;
 };
 
 

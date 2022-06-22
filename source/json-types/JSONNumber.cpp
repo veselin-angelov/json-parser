@@ -13,6 +13,11 @@ JSONBase* JSONNumber::clone() const
     return new JSONNumber(*this);
 }
 
+void JSONNumber::output(std::ostream &out, size_t level, bool isCompact) const
+{
+    out << value;
+}
+
 JSONNumberCreator::JSONNumberCreator() : JSONBaseCreator("-0123456789")
 {}
 

@@ -37,7 +37,7 @@ JSONBase* JSONFactory::createJSONBase(std::istream &in)
 
     if (creator)
     {
-        in.seekg(-1, std::ios_base::cur);
+        in.unget();
         return creator->createJSONBase(in);
     }
 

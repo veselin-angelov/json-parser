@@ -10,6 +10,7 @@
 #include <fstream>
 #include <exception>
 #include "json-types/JSONBase.h"
+#include "json-types/JSONArray.h"
 
 class JSON
 {
@@ -23,6 +24,14 @@ private:
 public:
     explicit JSON(const std::string &fileName);
     virtual ~JSON();
+
+public:
+    void print() const;
+    JSONArray search(const std::string &key) const;
+    void edit(std::vector<std::string> &elements, JSONBase* value);
+    void create(std::vector<std::string> &elements, JSONBase* value);
+    void remove(std::vector<std::string> &elements);
+    void move(std::vector<std::string> &from, std::vector<std::string> &to);
 };
 
 

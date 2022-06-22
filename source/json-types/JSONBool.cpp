@@ -13,6 +13,11 @@ JSONBase* JSONBool::clone() const
     return new JSONBool(*this);
 }
 
+void JSONBool::output(std::ostream &out, size_t level, bool isCompact) const
+{
+    out << std::boolalpha << value;
+}
+
 JSONBoolCreator::JSONBoolCreator() : JSONBaseCreator("tf")
 {}
 

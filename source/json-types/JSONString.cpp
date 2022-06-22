@@ -13,6 +13,11 @@ JSONBase* JSONString::clone() const
     return new JSONString(*this);
 }
 
+void JSONString::output(std::ostream &out, size_t level, bool isCompact) const
+{
+    out << '"' << value << '"';
+}
+
 JSONStringCreator::JSONStringCreator() : JSONBaseCreator("\"")
 {}
 

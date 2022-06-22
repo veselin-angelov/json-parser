@@ -15,7 +15,14 @@ class JSONBase
 {
 public:
     virtual ~JSONBase() = default;
+
     virtual JSONBase* clone() const = 0;
+    virtual void output(std::ostream &out, size_t level, bool isCompact) const = 0;
+    virtual void search(const std::string& key, std::vector<JSONBase*> &jsonArray) const;
+    virtual void edit(std::vector<std::string> &elements, JSONBase* value, size_t level);
+    virtual void create(std::vector<std::string> &elements, JSONBase* value, size_t level);
+    virtual void remove(std::vector<std::string> &elements, size_t level);
+    virtual const JSONBase* const findElement(std::vector<std::string> &elements, size_t level) const;
 };
 
 class JSONBaseCreator

@@ -4,12 +4,17 @@
 
 #include "../../headers/json-types/JSONNull.h"
 
+const char* JSONNull::value = "null";
+
 JSONBase* JSONNull::clone() const
 {
     return new JSONNull();
 }
 
-const char* JSONNull::value = "null";
+void JSONNull::output(std::ostream &out, size_t level, bool isCompact) const
+{
+    out << value;
+}
 
 JSONNullCreator::JSONNullCreator() : JSONBaseCreator("n")
 {}

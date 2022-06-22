@@ -15,7 +15,9 @@ private:
 
 public:
     explicit JSONBool(bool value);
+
     JSONBase* clone() const override;
+    void output(std::ostream &out, size_t level, bool isCompact) const override;
 };
 
 

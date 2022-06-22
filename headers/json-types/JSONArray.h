@@ -19,12 +19,21 @@ private:
 
 public:
     JSONArray() = default;
-    explicit JSONArray(const std::vector<JSONBase*> &values);
+//    explicit JSONArray(const std::vector<JSONBase*> &values);
     ~JSONArray() override;
     JSONArray(const JSONArray &other);
     JSONArray& operator=(const JSONArray &other);
 
     JSONBase* clone() const override;
+    void output(std::ostream &out, size_t level, bool isCompact) const override;
+    void search(const std::string &key, std::vector<JSONBase*> &jsonArray) const override;
+    void edit(std::vector<std::string> &elements, JSONBase *value, size_t level) override;
+    void create(std::vector<std::string> &elements, JSONBase *value, size_t level) override;
+    void remove(std::vector<std::string> &elements, size_t level) override;
+    const JSONBase *const findElement(std::vector<std::string> &elements, size_t level) const override;
+
+public:
+    const JSONBase* const operator[](size_t index) const;
 
 public:
     std::vector<JSONBase*> &getValues();
