@@ -2,6 +2,7 @@
 // Created by vesko on 17.06.22.
 //
 
+#include <iostream>
 #include "../headers/JSONParser.h"
 #include "../headers/Utilities.h"
 #include "../headers/JSONFactory.h"
@@ -53,6 +54,7 @@ long double JSONParser::parseNumber(std::istream &in)
 
 void JSONParser::parseObject(std::istream &in, JSONObject *jsonObject)
 {
+    bool isDuplicate = false;
     char c;
     in >> c; // get the {
 
@@ -60,8 +62,21 @@ void JSONParser::parseObject(std::istream &in, JSONObject *jsonObject)
     {
         while (in.good())
         {
+            isDuplicate = false;
             JSONPair* jsonPair = JSONPairCreator::createJSONPair(in);
-            jsonObject->getValues().push_back(jsonPair);
+
+            for (JSONPair* &value : jsonObject->getValues())
+            {
+                if (value->getKey() == jsonPair->getKey())
+                {
+                    std::cout << "WARNING Duplicate key found: " << jsonPair->getKey() << std::endl;
+                    delete value;
+                    value = jsonPair;
+                    isDuplicate = true;
+                }
+            }
+
+            if (!isDuplicate) jsonObject->getValues().push_back(jsonPair);
 
             in >> c;
 
@@ -89,14 +104,14 @@ void JSONParser::parseArray(std::istream &in, JSONArray *jsonArray)
     }
 }
 
-std::vector<std::string> JSONParser::parseElementPathToElements(const std::string &path)
+std::vector<std::string> JSONParser::parseLineToStrings(const std::string &path, const std::string &key)
 {
     std::vector<std::string> elements;
 
     size_t last = 0;
     size_t next = 0;
 
-    while ((next = path.find_first_of(".[]", last)) != std::string::npos)
+    while ((next = path.find_first_of(key, last)) != std::string::npos)
     {
         if (next - last > 0) elements.push_back(path.substr(last, next - last));
         last = next + 1;

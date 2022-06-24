@@ -10,23 +10,10 @@
 #include <stdexcept>
 #include "JSONExceptions.h"
 #include <istream>
-#include <iostream> // TODO remove
 
-// TODO validate unique and remove const static chars
 
 class JSONValidator
 {
-private:
-    const static char BEGIN_OBJECT = '{';
-    const static char END_OBJECT = '}';
-    const static char BEGIN_ARRAY = '[';
-    const static char END_ARRAY = ']';
-
-    const static char NAME_SEPARATOR = ':';
-    const static char VALUES_SEPARATOR = ',';
-
-    const static char STRING_QUOTE = '"';
-
 private:
     static void validateEscapeChar(std::istream &in);
 

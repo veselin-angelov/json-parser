@@ -21,7 +21,7 @@ public:
     static void parseObject(std::istream &in, JSONObject *jsonObject);
     static void parseArray(std::istream &in, JSONArray *jsonArray);
 
-    static std::vector<std::string> parseElementPathToElements(const std::string &path);
+    static std::vector<std::string> parseLineToStrings(const std::string &path, const std::string &key);
 };
 
 

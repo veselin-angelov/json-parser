@@ -45,10 +45,6 @@ void JSONPair::output(std::ostream &out, size_t level, bool isCompact) const
 
 void JSONPair::search(const std::string &key, std::vector<JSONBase*> &jsonArray) const
 {
-    if (this->key == key)
-    {
-        jsonArray.push_back(value->clone());
-    }
     value->search(key, jsonArray);
 }
 
@@ -70,14 +66,14 @@ void JSONPair::create(std::vector<std::string> &elements, JSONBase *value, size_
     this->value->create(elements, value, level);
 }
 
-void JSONPair::remove(std::vector<std::string> &elements, size_t level)
+void JSONPair::remove(std::vector<std::string> &elements, size_t level, bool toDelete)
 {
-    this->value->remove(elements, level);
+    this->value->remove(elements, level, toDelete);
 }
 
-const JSONBase *const JSONPair::findElement(std::vector<std::string> &elements, size_t level) const
+void JSONPair::findElement(std::vector<std::string> &elements, size_t level) const
 {
-    return this->findElement(elements, level);
+    this->findElement(elements, level);
 }
 
 const std::string &JSONPair::getKey() const

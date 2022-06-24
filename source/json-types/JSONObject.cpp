@@ -16,9 +16,6 @@ void JSONObject::destroy()
     }
 }
 
-//JSONObject::JSONObject(const std::vector<JSONPair*> &values) : values(values)
-//{}
-
 JSONObject::~JSONObject()
 {
     destroy();
@@ -76,16 +73,19 @@ void JSONObject::output(std::ostream &out, size_t level, bool isCompact) const
 
 void JSONObject::search(const std::string &key, std::vector<JSONBase*> &jsonArray) const
 {
-//    TODO refactor like create
-    for (size_t i = 0; i < values.size(); ++i)
+    for (JSONPair* const &value : values)
     {
-        values[i]->search(key, jsonArray);
+        if (value->getKey() == key)
+        {
+            jsonArray.push_back(value->getValue()->clone());
+        }
+
+        value->search(key, jsonArray);
     }
 }
 
 void JSONObject::edit(std::vector<std::string> &elements, JSONBase *value, size_t level)
 {
-//    TODO refactor like create
     if (this->operator[](elements[level]) != nullptr)
     {
         this->operator[](elements[level])->edit(elements, value, level + 1);
@@ -117,7 +117,7 @@ void JSONObject::create(std::vector<std::string> &elements, JSONBase *value, siz
     throw ElementNotFound(elements[level]);
 }
 
-void JSONObject::remove(std::vector<std::string> &elements, size_t level)
+void JSONObject::remove(std::vector<std::string> &elements, size_t level, bool toDelete)
 {
     if (elements.size() - 1 == level)
     {
@@ -125,7 +125,7 @@ void JSONObject::remove(std::vector<std::string> &elements, size_t level)
         {
             if (values[i]->getKey() == elements[level])
             {
-                delete values[i];
+                if (toDelete) delete values[i];
                 values.erase(values.begin() + i);
                 return;
             }
@@ -133,7 +133,7 @@ void JSONObject::remove(std::vector<std::string> &elements, size_t level)
     }
     else if (this->operator[](elements[level]) != nullptr)
     {
-        this->operator[](elements[level])->remove(elements, level + 1);
+        this->operator[](elements[level])->remove(elements, level + 1, toDelete);
         return;
     }
 
@@ -148,7 +148,7 @@ const JSONBase* const JSONObject::findElement(std::vector<std::string> &elements
     }
     else if (this->operator[](elements[level]) != nullptr)
     {
-        return this->operator[](elements[level])->findElement(elements, level + 1);
+        this->operator[](elements[level])->findElement(elements, level + 1);
     }
 
     return nullptr;

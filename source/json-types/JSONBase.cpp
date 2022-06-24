@@ -23,12 +23,12 @@ void JSONBase::create(std::vector<std::string> &elements, JSONBase *value, size_
     throw ElementAlreadyExists(elements[level]);
 }
 
-void JSONBase::remove(std::vector<std::string> &elements, size_t level)
+void JSONBase::remove(std::vector<std::string> &elements, size_t level, bool toDelete)
 {
     throw ElementNotFound(elements[level]);
 }
 
-const JSONBase *const JSONBase::findElement(std::vector<std::string> &elements, size_t level) const
+const JSONBase* const JSONBase::findElement(std::vector<std::string> &elements, size_t level) const
 {
     return nullptr;
 }

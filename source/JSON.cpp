@@ -25,10 +25,10 @@ JSON::JSON(const std::string &fileName) : fileName(fileName)
         parseJSON(file);
 //    5. Close file
         file.close();
-//    TODO CHECK FOR FILE STATE
     }
     catch (...)
     {
+        delete json;
         file.close();
         throw;
     }
@@ -90,13 +90,61 @@ void JSON::create(std::vector<std::string> &elements, JSONBase *value)
 
 void JSON::remove(std::vector<std::string> &elements)
 {
-    json->remove(elements, 0);
+    json->remove(elements, 0, true);
 }
 
 void JSON::move(std::vector<std::string> &from, std::vector<std::string> &to)
 {
-    const JSONBase* element = json->findElement(from, 0);
+    JSONBase* element = const_cast<JSONBase*>(json->findElement(from, 0));
 
-    element->output(std::cout, 1, false);
-//TODO finish
+    if (element == nullptr)
+    {
+        throw ElementNotFound(from.back());
+    }
+
+    try
+    {
+        json->create(to, element, 0);
+        json->remove(from, 0, false);
+    }
+    catch (const ElementAlreadyExists&)
+    {
+        json->edit(to, element, 0);
+        json->remove(from, 0, false);
+    }
+}
+
+void JSON::save(bool isCompact, const std::string &fileName) const
+{
+    std::ofstream file;
+
+    if (fileName.empty())
+    {
+        file.open(this->fileName);
+    }
+    else
+    {
+        file.open(fileName);
+    }
+
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Could not open file");
+    }
+
+    try
+    {
+        json->output(file, 1, isCompact);
+        file.close();
+    }
+    catch (...)
+    {
+        file.close();
+        throw;
+    }
+}
+
+const JSONBase *const JSON::findElement(std::vector<std::string> &elements) const
+{
+    return json->findElement(elements, 0);
 }

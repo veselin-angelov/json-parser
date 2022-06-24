@@ -7,15 +7,17 @@
 
 
 #include <istream>
+#include <iostream>
 #include <fstream>
 #include <exception>
 #include "json-types/JSONBase.h"
 #include "json-types/JSONArray.h"
 
+//TODO iterator and documentation
 class JSON
 {
 private:
-    std::string fileName;  // TODO maybe remove
+    std::string fileName;
     JSONBase* json;
 
 private:
@@ -32,6 +34,8 @@ public:
     void create(std::vector<std::string> &elements, JSONBase* value);
     void remove(std::vector<std::string> &elements);
     void move(std::vector<std::string> &from, std::vector<std::string> &to);
+    void save(bool isCompact, const std::string &fileName = "") const;
+    const JSONBase* const findElement(std::vector<std::string> &elements) const;
 };
 
 

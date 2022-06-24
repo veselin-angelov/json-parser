@@ -112,7 +112,7 @@ void JSONValidator::validateObject(std::istream &in)
     char c;
     in >> c;
 
-    if (c != BEGIN_OBJECT)
+    if (c != '{')
     {
         throw InvalidTypeException("Object must start with a {.");
     }
@@ -125,7 +125,7 @@ void JSONValidator::validateObject(std::istream &in)
 
         in >> c;
 
-        if (c != NAME_SEPARATOR)
+        if (c != ':')
         {
             throw InvalidTypeException("Key-value pair should be separated with colon. ", in.tellg());
         }
@@ -134,11 +134,11 @@ void JSONValidator::validateObject(std::istream &in)
 
         in >> c;
 
-        if (c == VALUES_SEPARATOR)
+        if (c == ',')
         {
             in >> c;
 
-            if (c != STRING_QUOTE)
+            if (c != '"')
             {
                 throw InvalidTypeException("A valid key is expected after a comma.", in.tellg());
             }
@@ -151,7 +151,7 @@ void JSONValidator::validateObject(std::istream &in)
         }
     }
 
-    if (c != END_OBJECT)
+    if (c != '}')
     {
         throw InvalidTypeException("Object must end with a }.", in.tellg());
     }
@@ -162,7 +162,7 @@ void JSONValidator::validateArray(std::istream &in)
     char c;
     in >> c;
 
-    if (c != BEGIN_ARRAY)
+    if (c != '[')
     {
         throw InvalidTypeException("Array must start with a [.", in.tellg());
     }
@@ -175,18 +175,18 @@ void JSONValidator::validateArray(std::istream &in)
 
         in >> c;
 
-        if (c == NAME_SEPARATOR)
+        if (c == ':')
         {
             throw InvalidTypeException("Expected comma or ], not colon.", in.tellg());
         }
 
-        if (c != VALUES_SEPARATOR)
+        if (c != ',')
         {
             break;
         }
     }
 
-    if (c != END_ARRAY)
+    if (c != ']')
     {
         throw InvalidTypeException("Array must end with a ].", in.tellg());
     }

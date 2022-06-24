@@ -16,9 +16,6 @@ void JSONArray::destroy()
     }
 }
 
-//JSONArray::JSONArray(const std::vector<JSONBase*> &values) : values(values)
-//{}
-
 JSONArray::~JSONArray()
 {
     destroy();
@@ -84,7 +81,7 @@ void JSONArray::search(const std::string &key, std::vector<JSONBase*> &jsonArray
 
 void JSONArray::edit(std::vector<std::string> &elements, JSONBase *value, size_t level)
 {
-    size_t index = std::stoi(elements[level]);
+    size_t index = std::stoll(elements[level]);
 
     if (values.at(index))
     {
@@ -104,12 +101,16 @@ void JSONArray::edit(std::vector<std::string> &elements, JSONBase *value, size_t
 
 void JSONArray::create(std::vector<std::string> &elements, JSONBase *value, size_t level)
 {
-    size_t index = std::stoi(elements[level]);
+    size_t index = std::stoll(elements[level]);
 
     if (index >= values.size() && elements.size() - 1 == level)
     {
         values.push_back(value);
         return;
+    }
+    else if (index >= values.size() && elements.size() - 1 != level)
+    {
+        throw ElementNotFound(elements[level]);
     }
     else if (index < values.size() && elements.size() - 1 != level)
     {
@@ -120,19 +121,19 @@ void JSONArray::create(std::vector<std::string> &elements, JSONBase *value, size
     throw ElementAlreadyExists(elements[level]);
 }
 
-void JSONArray::remove(std::vector<std::string> &elements, size_t level)
+void JSONArray::remove(std::vector<std::string> &elements, size_t level, bool toDelete)
 {
-    size_t index = std::stoi(elements[level]);
+    size_t index = std::stoll(elements[level]);
 
     if (index < values.size() && elements.size() - 1 == level)
     {
-        delete values[index];
+        if (toDelete) delete values[index];
         values.erase(values.begin() + index);
         return;
     }
     else if (index < values.size() && elements.size() - 1 != level)
     {
-        values[index]->remove(elements, level + 1);
+        values[index]->remove(elements, level + 1, toDelete);
         return;
     }
 
@@ -141,7 +142,7 @@ void JSONArray::remove(std::vector<std::string> &elements, size_t level)
 
 const JSONBase* const JSONArray::findElement(std::vector<std::string> &elements, size_t level) const
 {
-    size_t index = std::stoi(elements[level]);
+    size_t index = std::stoll(elements[level]);
 
     if (index < values.size() && elements.size() - 1 == level)
     {
@@ -163,6 +164,11 @@ const JSONBase* const JSONArray::operator[](size_t index) const
     }
 
     return values[index];
+}
+
+const std::vector<JSONBase *> &JSONArray::getValues() const
+{
+    return values;
 }
 
 std::vector<JSONBase *> &JSONArray::getValues()

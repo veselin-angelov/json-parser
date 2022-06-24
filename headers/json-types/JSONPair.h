@@ -19,14 +19,15 @@ public:
     virtual ~JSONPair();
     JSONPair(const JSONPair& other);
     JSONPair& operator=(const JSONPair& other);
-
     JSONPair* clone() const;
+
+public:
     void output(std::ostream &out, size_t level, bool isCompact) const;
     void search(const std::string &key, std::vector<JSONBase *> &jsonArray) const;
     void edit(std::vector<std::string> &elements, JSONBase* value, size_t level);
     void create(std::vector<std::string> &elements, JSONBase* value, size_t level);
-    void remove(std::vector<std::string> &elements, size_t level);
-    const JSONBase* const findElement(std::vector<std::string> &elements, size_t level) const;
+    void remove(std::vector<std::string> &elements, size_t level, bool toDelete);
+    void findElement(std::vector<std::string> &elements, size_t level) const;
 
 public:
     const std::string &getKey() const;

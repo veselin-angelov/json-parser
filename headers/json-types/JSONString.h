@@ -15,8 +15,9 @@ private:
 
 public:
     explicit JSONString(const std::string &value);
-
     JSONBase* clone() const override;
+
+public:
     void output(std::ostream &out, size_t level, bool isCompact) const override;
 };
 
