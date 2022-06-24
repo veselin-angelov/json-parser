@@ -8,6 +8,7 @@
 
 #include "JSONBase.h"
 #include "JSONPair.h"
+#include <iostream>
 
 class JSONObject : public JSONBase
 {
@@ -38,6 +39,29 @@ public:
 
 public:
     std::vector<JSONPair*> &getValues();
+
+    class JSONObjectIterator : public Iterator
+    {
+        friend class JSONObject;
+
+    public:
+        Iterator *operator++() override;
+        Iterator *operator++(int i) override;
+
+        bool operator==(const Iterator* &other) const override;
+        bool operator!=(const Iterator* &other) const override;
+
+        JSONBase *operator*() const override;
+        JSONBase *operator*() override;
+
+    private:
+        explicit JSONObjectIterator(JSONBase* data) : Iterator(data) {
+            std::cout << "twa";
+        }
+    };
+
+    Iterator *begin() override;
+    Iterator *end() override;
 };
 
 

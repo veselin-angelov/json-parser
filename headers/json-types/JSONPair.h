@@ -32,6 +32,9 @@ public:
 public:
     const std::string &getKey() const;
     const JSONBase* const getValue() const;
+    JSONBase* getValue(){
+        return value;
+    }
 };
 
 

@@ -12,8 +12,9 @@
 #include <exception>
 #include "json-types/JSONBase.h"
 #include "json-types/JSONArray.h"
+#include "json-types/JSONObject.h"
 
-//TODO iterator and documentation
+
 class JSON
 {
 private:
@@ -36,6 +37,15 @@ public:
     void move(std::vector<std::string> &from, std::vector<std::string> &to);
     void save(bool isCompact, const std::string &fileName = "") const;
     const JSONBase* const findElement(std::vector<std::string> &elements) const;
+
+    void test()
+    {
+        for (auto i = json->begin(); i < json->end(); i++)
+        {
+            std::cout << i << std::endl;
+//            (*(*i))->output(std::cout, 1, false);
+        }
+    }
 };
 
 

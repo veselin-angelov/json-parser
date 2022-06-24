@@ -8,8 +8,10 @@ int main()
     {
         JSON json("test.json");
 
-        JSONCommandsCLI jsonCommands(json);
-        jsonCommands.run();
+        json.test();
+
+//        JSONCommandsCLI jsonCommands(json);
+//        jsonCommands.run();
     }
     catch (std::exception &e)
     {

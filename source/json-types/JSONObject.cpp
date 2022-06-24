@@ -3,6 +3,7 @@
 //
 
 #include <cassert>
+#include <iostream>
 #include "../../headers/json-types/JSONObject.h"
 #include "../../headers/Utilities.h"
 #include "../../headers/JSONExceptions.h"
@@ -86,9 +87,11 @@ void JSONObject::search(const std::string &key, std::vector<JSONBase*> &jsonArra
 
 void JSONObject::edit(std::vector<std::string> &elements, JSONBase *value, size_t level)
 {
-    if (this->operator[](elements[level]) != nullptr)
+    JSONPair* jsonPair = this->operator[](elements[level]);
+
+    if (jsonPair)
     {
-        this->operator[](elements[level])->edit(elements, value, level + 1);
+        jsonPair->edit(elements, value, level + 1);
         return;
     }
 
@@ -97,20 +100,22 @@ void JSONObject::edit(std::vector<std::string> &elements, JSONBase *value, size_
 
 void JSONObject::create(std::vector<std::string> &elements, JSONBase *value, size_t level)
 {
+    JSONPair* jsonPair = this->operator[](elements[level]);
+
     if (elements.size() - 1 == level)
     {
-        if (this->operator[](elements[level]) == nullptr)
+        if (!jsonPair)
         {
-            JSONPair* jsonPair = new JSONPair(elements[level], value);
-            values.push_back(jsonPair);
+            JSONPair* newJsonPair = new JSONPair(elements[level], value);
+            values.push_back(newJsonPair);
             return;
         }
 
         throw ElementAlreadyExists(elements[level]);
     }
-    else if (this->operator[](elements[level]) != nullptr)
+    else if (jsonPair)
     {
-        this->operator[](elements[level])->create(elements, value, level + 1);
+        jsonPair->create(elements, value, level + 1);
         return;
     }
 
@@ -119,6 +124,8 @@ void JSONObject::create(std::vector<std::string> &elements, JSONBase *value, siz
 
 void JSONObject::remove(std::vector<std::string> &elements, size_t level, bool toDelete)
 {
+    JSONPair* jsonPair = this->operator[](elements[level]);
+
     if (elements.size() - 1 == level)
     {
         for (size_t i = 0; i < values.size(); ++i)
@@ -131,9 +138,9 @@ void JSONObject::remove(std::vector<std::string> &elements, size_t level, bool t
             }
         }
     }
-    else if (this->operator[](elements[level]) != nullptr)
+    else if (jsonPair)
     {
-        this->operator[](elements[level])->remove(elements, level + 1, toDelete);
+        jsonPair->remove(elements, level + 1, toDelete);
         return;
     }
 
@@ -142,13 +149,15 @@ void JSONObject::remove(std::vector<std::string> &elements, size_t level, bool t
 
 const JSONBase* const JSONObject::findElement(std::vector<std::string> &elements, size_t level) const
 {
-    if (elements.size() - 1 == level)
+    const JSONPair* jsonPair = this->operator[](elements[level]);
+
+    if (jsonPair)
     {
-        return this->operator[](elements[level])->getValue();
-    }
-    else if (this->operator[](elements[level]) != nullptr)
-    {
-        this->operator[](elements[level])->findElement(elements, level + 1);
+        if (elements.size() - 1 == level)
+        {
+            return jsonPair->getValue();
+        }
+        jsonPair->findElement(elements, level + 1);
     }
 
     return nullptr;
@@ -167,7 +176,7 @@ JSONPair* JSONObject::operator[](const std::string &key)
     return nullptr;
 }
 
-const JSONPair* const JSONObject::operator[](const std::string &key) const
+const JSONPair * const JSONObject::operator[](const std::string &key) const
 {
     for (JSONPair* const &value : values)
     {
@@ -185,6 +194,16 @@ std::vector<JSONPair*> &JSONObject::getValues()
     return values;
 }
 
+JSONBase::Iterator *JSONObject::begin()
+{
+    return new JSONObjectIterator(values[0]->getValue());
+}
+
+JSONBase::Iterator *JSONObject::end()
+{
+    return new JSONObjectIterator(values[values.size() - 1]->getValue());
+}
+
 JSONObjectCreator::JSONObjectCreator() : JSONBaseCreator("{")
 {}
 
@@ -196,3 +215,44 @@ JSONBase* JSONObjectCreator::createJSONBase(std::istream &in) const
 }
 
 static JSONObjectCreator __;
+
+JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++()
+{
+    std::cout << ptr;
+    ++ptr;
+    return this;
+}
+
+JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++(int i)
+{
+    std::cout << ptr;
+    Iterator* current = this;
+    ++(*this);
+    return current;
+}
+
+bool JSONObject::JSONObjectIterator::operator==(const JSONBase::Iterator* &other) const
+{
+    const JSONObjectIterator* jsonObjectIterator = dynamic_cast<const JSONObjectIterator*>(other);
+
+    if (jsonObjectIterator)
+    {
+        return ptr == jsonObjectIterator->ptr;
+    }
+    return false;
+}
+
+bool JSONObject::JSONObjectIterator::operator!=(const JSONBase::Iterator* &other) const
+{
+    return !(*this == other);
+}
+
+JSONBase *JSONObject::JSONObjectIterator::operator*() const
+{
+    return ptr;
+}
+
+JSONBase *JSONObject::JSONObjectIterator::operator*()
+{
+    return ptr;
+}
