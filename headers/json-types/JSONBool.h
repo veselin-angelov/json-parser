@@ -8,6 +8,8 @@
 
 #include "JSONBase.h"
 
+
+// клас съхраняващ булеви стойности
 class JSONBool : public JSONBase
 {
 private:

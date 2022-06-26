@@ -11,6 +11,8 @@
 #include <istream>
 #include <cstring>
 
+
+// Базовият клас на всички типове
 class JSONBase
 {
 public:
@@ -25,36 +27,36 @@ public:
     virtual void remove(std::vector<std::string> &elements, size_t level, bool toDelete);
     virtual const JSONBase* const findElement(std::vector<std::string> &elements, size_t level) const;
 
-    class Iterator
-    {
-        friend class JSONBase;
-
-    public:
-        virtual Iterator* operator++() = 0;
-        virtual Iterator* operator++(int) = 0;
-
-        virtual bool operator == (const Iterator* &other) const = 0;
-        virtual bool operator != (const Iterator* &other) const = 0;
-
-        virtual JSONBase* operator*() const = 0;
-        virtual JSONBase* operator*() = 0;
-
-    protected:
-        Iterator(JSONBase* data) : ptr(data) {}
-
-    protected:
-        JSONBase* ptr;
-    };
-
-    virtual Iterator* begin()
-    {
-        throw std::invalid_argument("ne");
-    }
-
-    virtual Iterator* end()
-    {
-        throw std::invalid_argument("ne");
-    }
+//    class Iterator
+//    {
+//        friend class JSONBase;
+//
+//    public:
+//        virtual Iterator* operator++() = 0;
+//        virtual Iterator* operator++(int) = 0;
+//
+//        virtual bool operator == (const Iterator* &other) const = 0;
+//        virtual bool operator != (const Iterator* &other) const = 0;
+//
+//        virtual JSONBase* operator*() const = 0;
+//        virtual JSONBase* operator*() = 0;
+//
+//    protected:
+//        Iterator(JSONBase* data) : ptr(data) {}
+//
+//    protected:
+//        JSONBase* ptr;
+//    };
+//
+//    virtual Iterator* begin()
+//    {
+//        throw std::invalid_argument("ne");
+//    }
+//
+//    virtual Iterator* end()
+//    {
+//        throw std::invalid_argument("ne");
+//    }
 };
 
 class JSONBaseCreator

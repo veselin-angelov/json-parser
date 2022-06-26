@@ -12,6 +12,7 @@
 #include <istream>
 
 
+// Класът отговарящ за валидиране на данните
 class JSONValidator
 {
 private:

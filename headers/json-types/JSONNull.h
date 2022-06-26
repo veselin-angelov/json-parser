@@ -8,6 +8,8 @@
 
 #include "JSONBase.h"
 
+
+// клас отговарящ за "null"
 class JSONNull : public JSONBase
 {
 private:

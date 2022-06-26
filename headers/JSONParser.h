@@ -12,6 +12,8 @@
 #include "json-types/JSONObject.h"
 #include "json-types/JSONArray.h"
 
+
+// Класът, в който са методите, използвани от всеки клас, за да създаде обект от файл
 class JSONParser
 {
 public:

@@ -8,6 +8,8 @@
 
 #include "JSONBase.h"
 
+
+// класът, който отговаря за числата
 class JSONNumber : public JSONBase
 {
 private:

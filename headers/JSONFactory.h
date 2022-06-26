@@ -8,6 +8,8 @@
 
 #include "json-types/JSONBase.h"
 
+
+// Фабриката, която служи за създаването на обектите
 class JSONFactory
 {
 private:

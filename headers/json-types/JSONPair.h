@@ -8,6 +8,8 @@
 
 #include "JSONBase.h"
 
+
+// Класът, който съхранвя двойките ключ и стойност
 class JSONPair
 {
 private:

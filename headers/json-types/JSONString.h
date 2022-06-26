@@ -8,6 +8,8 @@
 
 #include "JSONBase.h"
 
+
+// Класът, който съхранява символните низове
 class JSONString : public JSONBase
 {
 private:

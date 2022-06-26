@@ -8,6 +8,8 @@
 
 #include "JSON.h"
 
+
+// Класът, от който се извикват командите въведени от конзолата
 class JSONCommandsCLI
 {
 private:

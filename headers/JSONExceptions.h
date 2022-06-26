@@ -7,6 +7,8 @@
 
 #include <exception>
 
+
+// Класовете с custom грешки за по-точна информация
 class InvalidTypeException : public std::exception
 {
 private:

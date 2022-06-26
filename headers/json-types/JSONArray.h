@@ -9,6 +9,8 @@
 #include <vector>
 #include "JSONBase.h"
 
+
+// JSON масив, наследяващ базовия клас
 class JSONArray : public JSONBase
 {
 private:

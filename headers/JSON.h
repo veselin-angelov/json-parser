@@ -15,6 +15,7 @@
 #include "json-types/JSONObject.h"
 
 
+// Главният клас, който съхранява най-главният обект от файла, през него се манипулират данните на обекта
 class JSON
 {
 private:
@@ -38,14 +39,14 @@ public:
     void save(bool isCompact, const std::string &fileName = "") const;
     const JSONBase* const findElement(std::vector<std::string> &elements) const;
 
-    void test()
-    {
-        for (auto i = json->begin(); i < json->end(); i++)
-        {
-            std::cout << i << std::endl;
+//    void test()
+//    {
+//        for (auto i = json->begin(); i != json->end(); i++)
+//        {
+//            std::cout << **i << std::endl;
 //            (*(*i))->output(std::cout, 1, false);
-        }
-    }
+//        }
+//    }
 };
 
 

@@ -5,7 +5,6 @@
 #include <cassert>
 #include <iostream>
 #include "../../headers/json-types/JSONObject.h"
-#include "../../headers/Utilities.h"
 #include "../../headers/JSONExceptions.h"
 #include "../../headers/JSONParser.h"
 
@@ -194,15 +193,15 @@ std::vector<JSONPair*> &JSONObject::getValues()
     return values;
 }
 
-JSONBase::Iterator *JSONObject::begin()
-{
-    return new JSONObjectIterator(values[0]->getValue());
-}
-
-JSONBase::Iterator *JSONObject::end()
-{
-    return new JSONObjectIterator(values[values.size() - 1]->getValue());
-}
+//JSONBase::Iterator *JSONObject::begin()
+//{
+//    return new JSONObjectIterator(values[0]->getValue());
+//}
+//
+//JSONBase::Iterator *JSONObject::end()
+//{
+//    return new JSONObjectIterator(values[values.size() - 1]->getValue());
+//}
 
 JSONObjectCreator::JSONObjectCreator() : JSONBaseCreator("{")
 {}
@@ -216,43 +215,41 @@ JSONBase* JSONObjectCreator::createJSONBase(std::istream &in) const
 
 static JSONObjectCreator __;
 
-JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++()
-{
-    std::cout << ptr;
-    ++ptr;
-    return this;
-}
-
-JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++(int i)
-{
-    std::cout << ptr;
-    Iterator* current = this;
-    ++(*this);
-    return current;
-}
-
-bool JSONObject::JSONObjectIterator::operator==(const JSONBase::Iterator* &other) const
-{
-    const JSONObjectIterator* jsonObjectIterator = dynamic_cast<const JSONObjectIterator*>(other);
-
-    if (jsonObjectIterator)
-    {
-        return ptr == jsonObjectIterator->ptr;
-    }
-    return false;
-}
-
-bool JSONObject::JSONObjectIterator::operator!=(const JSONBase::Iterator* &other) const
-{
-    return !(*this == other);
-}
-
-JSONBase *JSONObject::JSONObjectIterator::operator*() const
-{
-    return ptr;
-}
-
-JSONBase *JSONObject::JSONObjectIterator::operator*()
-{
-    return ptr;
-}
+//JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++()
+//{
+//    ++ptr;
+//    return this;
+//}
+//
+//JSONBase::Iterator *JSONObject::JSONObjectIterator::operator++(int i)
+//{
+//    Iterator* current = this;
+//    ++(*this);
+//    return current;
+//}
+//
+//bool JSONObject::JSONObjectIterator::operator==(const JSONBase::Iterator* &other) const
+//{
+//    const JSONObjectIterator* jsonObjectIterator = dynamic_cast<const JSONObjectIterator*>(other);
+//
+//    if (jsonObjectIterator)
+//    {
+//        return ptr == jsonObjectIterator->ptr;
+//    }
+//    return false;
+//}
+//
+//bool JSONObject::JSONObjectIterator::operator!=(const JSONBase::Iterator* &other) const
+//{
+//    return !(*this == other);
+//}
+//
+//JSONBase *JSONObject::JSONObjectIterator::operator*() const
+//{
+//    return ptr;
+//}
+//
+//JSONBase *JSONObject::JSONObjectIterator::operator*()
+//{
+//    return ptr;
+//}
