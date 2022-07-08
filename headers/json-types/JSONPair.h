@@ -29,7 +29,7 @@ public:
     void edit(std::vector<std::string> &elements, JSONBase* value, size_t level);
     void create(std::vector<std::string> &elements, JSONBase* value, size_t level);
     void remove(std::vector<std::string> &elements, size_t level, bool toDelete);
-    void findElement(std::vector<std::string> &elements, size_t level) const;
+    const JSONBase *const findElement(std::vector<std::string> &elements, size_t level) const;
 
 public:
     const std::string &getKey() const;

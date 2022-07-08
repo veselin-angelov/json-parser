@@ -156,7 +156,7 @@ const JSONBase* const JSONObject::findElement(std::vector<std::string> &elements
         {
             return jsonPair->getValue();
         }
-        jsonPair->findElement(elements, level + 1);
+        return jsonPair->findElement(elements, level + 1);
     }
 
     return nullptr;

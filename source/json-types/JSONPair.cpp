@@ -71,9 +71,9 @@ void JSONPair::remove(std::vector<std::string> &elements, size_t level, bool toD
     this->value->remove(elements, level, toDelete);
 }
 
-void JSONPair::findElement(std::vector<std::string> &elements, size_t level) const
+const JSONBase *const JSONPair::findElement(std::vector<std::string> &elements, size_t level) const
 {
-    this->findElement(elements, level);
+    return this->value->findElement(elements, level);
 }
 
 const std::string &JSONPair::getKey() const
